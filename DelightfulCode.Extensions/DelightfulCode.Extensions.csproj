@@ -5,14 +5,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.7-beta</Version>
     <Authors>Warren James</Authors>
-    <Company>Mousetrap Power Systems</Company>
+    <Company>Mousetrap Systems</Company>
     <PackageProjectUrl>https://isitdoneyet.online/delightfulcode/</PackageProjectUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageLicenseFile>license</PackageLicenseFile>
     <RepositoryUrl>https://github.com/mousetrap-systems/opensource</RepositoryUrl>
-    <RepositoryType>TFVC</RepositoryType>
-    <Description>C# Extensions for code readability and annotation, designed to simplify a code base.
-</Description>
+    <RepositoryType>GIT</RepositoryType>
+    <Description>C# Extensions for code readability and annotation, designed to simplify a code base.</Description>
     <PackageId>DelightfulCode.Extensions</PackageId>
     <Product>DelightfulCode.Extensions</Product>
     <PackageTags>c</PackageTags>
@@ -23,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\license.txt">
+    <None Include="..\license">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

@@ -1,10 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Warren James</Authors>
+    <Company>Mousetrap Systems</Company>
+
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Version>0.0.2-beta</Version>
+    <PackageProjectUrl>https://isitdoneyet.online/delightfulcode/</PackageProjectUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageLicenseFile>license</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/mousetrap-systems/opensource</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <Description>C# Base Components for code readability and annotation, designed to simplify a code base.</Description>
+    <PackageId>DelightfulCode</PackageId>
+    <Product>DelightfulCode</Product>
+    <Version>0.0.8-beta</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Common\SimpleLogger (extended version).txt" />
@@ -15,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\license.txt" Link="license.txt">
+    <None Include="..\license" Link="license">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
     </None>
