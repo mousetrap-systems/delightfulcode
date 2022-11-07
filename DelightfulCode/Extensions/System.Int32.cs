@@ -1,6 +1,6 @@
 ﻿using System;
 
-public static partial class ExtendInt32
+public static partial class Extensions
 {
     public static int PercentOf(this ulong value, ulong total)
     {

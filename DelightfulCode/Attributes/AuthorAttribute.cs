@@ -7,7 +7,7 @@
 /// </summary>
 [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
 [Author("Warren James", 2022)]
-[Health(CodeStability.Experimental)]
+[Health(CodeStability.Stable)]
 public sealed class AuthorAttribute : Attribute
 {
     private string name;
