@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <Version>0.0.2-beta</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Common\SimpleLogger (extended version).txt" />
+    <None Remove="DelightfulCode.csproj.vspscc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\SimpleLogger %28extended version%29.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\license.txt" Link="license.txt">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DelightfulCode.Extensions" Version="0.0.6-beta" />
+  </ItemGroup>
+
+</Project>

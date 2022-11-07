@@ -1,0 +1,244 @@
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
+/// <summary>
+/// A resiliant logging mechanism
+/// </summary>
+[Health(CodeStability.Stable)]
+public class SimpleLogger
+{
+    private string _file_name_full = string.Empty; // both these values must be supplied during startup.
+    private string _folder_location = string.Empty; // location where the logs will be written (local), requires write access.
+
+    private ConcurrentQueue<string> _queue; // a thread-safe queue
+    private StreamWriter _stream_writer;
+    private Task _writing_task;
+    
+    private bool _disposed; // internal flag, prevents from running 'dispose' sequence more than one on the same object
+    private bool _writing; // internal flag, the mechanism is currently dumping stuff into the file
+    private bool _logging; // internal flag, logging operations can take place / are taking place
+
+    /// <summary>
+    /// Normal standard constructor.
+    /// Can be called with the name of a desired file location
+    /// </summary>
+    
+    public SimpleLogger()
+    {
+        _queue = new ConcurrentQueue<string>();
+    }
+
+    /// <summary>
+    /// Force the logging to start
+    /// </summary>
+    /// <param name="folder_location_specific">Supply with a folder path nominated, otherwise the logging mechanism will place in system temp directory.</param>
+    /// <param name="application_name_prefix">prepend the name of the logfile with something (optional)</param>
+    public void Start(string folder_location_specific = "", string application_name_prefix = "", bool include_machine_name = false)
+    {
+        if (folder_location_specific.HasSomeValue() && folder_location_specific.Contains(@"\"))
+        {
+            _folder_location = folder_location_specific;
+        }
+        else
+        {
+            _folder_location = Path.Combine(Path.GetTempPath(), "log_files");
+        }
+
+        // todo: verify the prefix does not contain other path information
+
+        if (application_name_prefix.HasSomeValue()) application_name_prefix += "_";
+
+        if (include_machine_name) application_name_prefix += $"{Environment.MachineName}_";
+
+        _file_name_full = Path.Combine(_folder_location, $"{application_name_prefix}{DateTime.Now:yyyyMMddHHmmssff}.txt".ToLowerInvariant());
+
+        if (!Directory.Exists(_folder_location))
+        {
+            Directory.CreateDirectory(_folder_location);
+        }
+        
+        Debug.WriteLine($"LOGGING TO LOCATION: {_folder_location}");
+
+        _logging = true;
+
+        // setup the streamwriter for usage ...
+        
+        _stream_writer = File.AppendText(_file_name_full);
+        _stream_writer.AutoFlush = true;
+
+        _writing_task = Task.Run(() => WritingEngine());
+
+        //// I rewrote this structure using
+        //// https://msdn.microsoft.com/en-us/library/dd537612(v=vs.110).aspx
+        //// so that the two async tasks would not intefere with eachother.
+        //// AFAIK it is the correct usage for AWAIT structures.. --JAMES
+
+        //try
+        //{
+        //    Task firstTask = new Task(() =>
+        //    {
+        //        try
+        //        {
+        //            _stream_writer = File.AppendText(_file_name_full);
+        //            _stream_writer.AutoFlush = true;
+        //            // _stream_writer.WriteLineAsync($"LOGGING STARTED: [{DateTime.Now.ToLongTimeString()}]"); // removed, to get rid of "The stream is currently in use by a previous operation on the stream" message.
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Dispose();
+        //            throw new Exception(ex.Message);
+        //        }
+        //    });
+
+        //    Task secondTask = firstTask.ContinueWith((t) => WritingEngine());
+
+        //    firstTask.Start();
+
+        //    // With the old structure, can sometimes throw an error if the application (in debugging mode) has terminated abnormally
+        //    // "The stream is currently in use by a previous operation on the stream", which is one of the reasons
+        //    // we changed the log file name to be unique each time the program is started, however it still pops up from time-to-time,
+
+        //    // I think that error was caused by two very quick writes to the same stream ...
+        //}
+        //catch (Exception ex)
+        //{
+        //    Dispose();
+        //    throw new Exception(ex.Message);
+        //}
+    }
+
+    /// <summary>
+    /// Writes a single line to the file storage.
+    /// This will be pre-pended with a timestamp (in local time).
+    /// </summary>
+    public void WriteLine(string message)
+    {
+        message = DateTime.Now.ToString("hh.mm tt ssff | ") + message + Environment.NewLine;
+        _queue.Enqueue(message);
+    }
+
+    /// <summary>
+    /// Non-blocking call.
+    /// </summary>
+    public async Task WriteLineAsync(string message)
+    {
+        message = DateTime.Now.ToString("hh.mm tt ssff | ") + message + Environment.NewLine;
+        await Task.Run(() => _queue.Enqueue(message));
+    }
+
+    public void WriteLine(Exception ex, [CallerFilePath] string sourceFilePath = "", [CallerMemberName] string sourceMethod = "", [CallerLineNumber] int sourceLineNum = 0)
+    {
+        _queue.Enqueue($"{DateTime.Now:hh.mm tt ssff} | ------------------------------------------{Environment.NewLine}");
+        _queue.Enqueue($"                ERROR {sourceMethod} on line {sourceLineNum} in {sourceFilePath}{Environment.NewLine}");
+        _queue.Enqueue($"                STATUS: '{ex}{Environment.NewLine}");
+        _queue.Enqueue($"                EXCEPTION: {ex.Message}{Environment.NewLine}");
+        _queue.Enqueue($"                {ex?.InnerException}{Environment.NewLine}");
+    }
+
+    /// <summary>
+    /// Empties the queue as it is able to.
+    /// Asynchronously writes a line to the stream, using internal queue as the source
+    /// </summary>
+    private async void WritingEngine()
+    {
+        _logging = true;
+
+        while (_logging)
+        {
+            if (_queue == null) break;
+
+            while (_queue?.Count > 0)
+            {
+                if (_writing) continue;
+                _writing = true;
+
+                if (_queue == null) return;
+
+                // ?????? bug on startup (sometimes): "The stream is currently in use by a previous operation on the stream"
+                _queue.TryDequeue(out string? content);
+
+                if (content != null)
+                {
+                    await _stream_writer
+                    .WriteAsync(content)
+                    .ContinueWith(task => _writing = false);
+                }
+
+            }
+        }
+    }
+
+    /// <summary>
+    /// Performs a non-async flush of the queue and de-allocates the existing file writer,
+    /// records details about where the 'stop' was called from.
+    /// NOTE: To resume (with a different filename), you'll need to use 'start'.
+    /// </summary>
+    public async Task Stop([CallerFilePath] string sourceFilePath = "", [CallerMemberName] string sourceMethod = "", [CallerLineNumber] int sourceLineNum = 0)
+    {
+        // Wait for the async writeout mechanism to empty out
+
+        while (_queue?.Count > 0)
+        {
+            await Task.Delay(1000); // wait one second
+        }
+
+        _logging = false;
+
+        _stream_writer.WriteLine($"------------------------------------------------------");
+        _stream_writer.WriteLine($"LOGGING STOPPED by method '{sourceMethod}' at local time [{DateTime.Now.ToLongTimeString()}]");
+        _stream_writer.WriteLine($"CALLED FROM: [{sourceFilePath} line {sourceLineNum}]");
+
+        await _stream_writer.FlushAsync();
+        _stream_writer.Close();
+    }
+
+    /// <summary>
+    /// Need to know where the log is stored?
+    /// </summary>
+    public string FolderLocation
+    {
+        get { return _folder_location; }
+    }
+
+    /// <summary>
+    /// Immediately remove the file allocation, ignoring any entries still to be written.
+    /// NOTE: For a graceful exit, use 'stop' instead.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+    }
+
+    protected async virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                _disposed = true;
+                _logging = false;
+
+                if (_queue != null)
+                {
+                    _queue.Clear();
+                }
+
+                if (_stream_writer != null)
+                {
+                    await _stream_writer
+                        .WriteLineAsync($"LOGGING ENDED: [{DateTime.Now.ToLongTimeString()}]");
+
+                    await _stream_writer
+                        .FlushAsync()
+                        .ContinueWith(task =>
+                        {
+                            _stream_writer.Close();
+                            _stream_writer.Dispose();
+                        });
+                }
+            }
+        }
+    }
+
+}
