@@ -7,7 +7,7 @@ public static partial class Extensions
     /// Inverse of 'IsEmpty', just a bit more readable.
     /// Indicates has at least one character (and whitespace is allowed in this version)
     /// </summary>
-    public static bool HasSomeValue(this string s)
+    public static bool HasSomeValue(this string? s)
     {
         return !string.IsNullOrEmpty(s);
     }
@@ -23,7 +23,8 @@ public static partial class Extensions
     /// <remarks>
     /// I know this seems overkill for a common-enough routine, but it's a neat shortcut and reads really well in code
     /// </remarks>
-    public static bool IsBlank(this string s)
+    [Health(CodeStability.Stable)]
+    public static bool IsBlank(this string? s)
     {
         return string.IsNullOrEmpty(s?.Trim());
     }
