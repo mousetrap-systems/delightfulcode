@@ -15,7 +15,7 @@
     <Description>C# Base Components for code readability and annotation, designed to simplify a code base.</Description>
     <PackageId>DelightfulCode</PackageId>
     <Product>DelightfulCode</Product>
-    <Version>0.0.8-beta</Version>
+    <Version>0.0.9-beta</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Common\SimpleLogger (extended version).txt" />
