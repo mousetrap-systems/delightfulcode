@@ -1,10 +1,20 @@
-﻿/// <summary>
+﻿using System;
+
+/// <summary>
 /// Internal flags used in attributes, allows internal classification of the codebase.
+/// In 2023, I used GPT-4 to suggest additional flags to fill out the entire scope of usage.
 /// </summary>
-[Author("Warren James", 2022)]
+[Author("GPT-4", 2023)]
+[Author("Warren James", 2018-2021, 2023)]
 [Health(CodeStability.Stable)]
 public enum CodeStability
 {
+    /// <summary>
+    /// Code follows best practices and design patterns and can be used as a reference or example for other implementations.
+    /// Use this flag to indicate that the code is exemplary and can serve as a guide for other developers.
+    /// </summary>
+    BestPractices,
+
     /// <summary>
     /// Sometimes a chunk of code doesn't have anything specifically wrong with it (i.e. no specific issues) and works, but it stinks a bit.
     /// If your 'code hound' nose detects a whiff then use this marker so that someone can come back to it later (when time permits)
@@ -12,6 +22,14 @@ public enum CodeStability
     /// At least include summary as to what you are smelling, so that the assessment can end up being be objective rather than subjective.
     /// </summary>
     CodeSmells,
+
+    /// <summary>
+    /// The code has been deprecated, meaning it should no longer be used in new development.
+    /// This flag helps identify outdated code that should be replaced by a newer implementation.
+    /// SIMILAR to '[Obsolete]' but the term "Deprecated" specifically indicates that a better
+    /// alternative exists, and the deprecated code may be removed in future releases.
+    /// </summary>
+    Deprecated,
 
     /// <summary>
     /// This flag is the equivalent to an 'under construction' - generally for new functions or code but may also be used to highlight bad stuff.
@@ -26,6 +44,12 @@ public enum CodeStability
     RequiresCommentary,
 
     /// <summary>
+    /// Code requires a review from a subject matter expert (SME) or a specific team member.
+    /// Use this flag to indicate that specialized knowledge is needed to properly review or assess the code.
+    /// </summary>
+    RequiresExpertReview,
+
+    /// <summary>
     /// This code has the potential to change at any time and may indicate business requirements are still being decided.
     /// Use this flag for low-impact code blocks which you're happy for others to come back to and rework later.
     /// </summary>
@@ -36,6 +60,12 @@ public enum CodeStability
     /// The goal is to allow 'Issues' code to be easily identified and targeted, and should be updated after those issues are resolved.
     /// </summary>
     Issues,
+
+    /// <summary>
+    /// Code has been partially written, but not fully implemented or tested.
+    /// This is a placeholder for functionality that needs to be completed.
+    /// </summary>
+    InProgress,
 
     /// <summary>
     /// Marks code known which may be easy to shatter. Be careful with changing this class since it might break due to various dependencies.
@@ -65,10 +95,35 @@ public enum CodeStability
     PossiblyContainsDuplicateCode,
 
     /// <summary>
+    /// This code is being actively refactored or redesigned.
+    /// Use this flag to indicate that the current code is expected to change
+    /// and to notify other developers that they should coordinate any changes with you.
+    /// </summary>
+    RefactoringInProgress,
+
+    /// <summary>
     /// Use this to flag a bit of code which you think is a nice target for optimization - e.g. you know it can be done better, or just suspect it could be compacted.
     /// It might be something you've already considered but just don't have the time to review now (or wish to come back to). Leave a good comment trail to assist the potential reviewer - after all you are currently the closest person to the code at this point.
     /// </summary>
     RequiresReview,
+
+    /// <summary>
+    /// Code requires additional tests or has known test coverage gaps.
+    /// Use this flag to indicate that improvements to the test suite are needed.
+    /// </summary>
+    RequiresMoreTests,
+
+    /// <summary>
+    /// Code has known security vulnerabilities or may be susceptible to specific security risks.
+    /// Use this flag to indicate that a security review or improvements are needed to ensure the code is secure.
+    /// </summary>
+    SecurityConcerns,
+
+    /// <summary>
+    /// Code has been optimized for a specific use case or platform and may not be suitable for general use.
+    /// Use this flag to indicate that changes or adaptations may be necessary for broader applicability.
+    /// </summary>
+    SpecializedImplementation,
 
     /// <summary>
     /// Indicates the code has no major issues and decent levels of readability, and good naming patterns.
@@ -94,6 +149,12 @@ public enum CodeStability
     /// Look for clues and comments about ownership and versioning before you start extending stuff.
     /// </summary>
     TemporaryMigration,
+
+    /// <summary>
+    /// This code is tightly coupled with other code, making it difficult to change or extend independently.
+    /// Use this flag to indicate that refactoring may be needed to improve modularity and maintainability.
+    /// </summary>
+    TightlyCoupled,
 
     /// <summary>
     /// Default, but can be used to indicate that an assessment is pending.
