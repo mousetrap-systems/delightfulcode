@@ -39,6 +39,12 @@ public enum CodeStability
     DontUseThis,
 
     /// <summary>
+    /// Code is not yet ready for use, but will be in the future.
+    /// This may be a stub or empty name.
+    /// </summary>
+    FutureUsage,
+
+    /// <summary>
     /// Needs markup with XML comments, do it when we get around to it.
     /// </summary>
     RequiresCommentary,
