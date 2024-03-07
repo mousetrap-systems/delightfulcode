@@ -18,11 +18,7 @@
     <Version>0.0.11-beta</Version>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Common\SimpleLogger (extended version).txt" />
     <None Remove="DelightfulCode.csproj.vspscc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Common\SimpleLogger %28extended version%29.txt" />
   </ItemGroup>
 
   <ItemGroup>
