@@ -39,6 +39,9 @@ public class CircularBuffer<T> : IEnumerable<T>, IEnumerable
 
     public int UnsafeCount => _count;
 
+    /// <summary>
+    /// Is the entire size of the buffer, full of items? Easy check.
+    /// </summary>
     public bool IsFull => (SafeCount >= Size) ? true : false;
 
     public CircularBuffer() : this(10) { } // Set a default size of 10
@@ -51,6 +54,22 @@ public class CircularBuffer<T> : IEnumerable<T>, IEnumerable
         _head = 0;
         _rear = 0;
         _values = new T[_size];
+    }
+
+    /// <summary>
+    /// From the 'rear' this will return the most recent item added to the stack, if it's present.
+    /// </summary>
+    public T? GetItem(int index)
+    {
+        if (index < 0 || index >= _count)
+        {
+            return default(T);
+        }
+
+        // Calculate the actual index in the buffer
+        int actualIndex = (_rear - 1 - index + _size) % _size;
+
+        return _values[actualIndex];
     }
 
     private static int Incr(int index, int size)

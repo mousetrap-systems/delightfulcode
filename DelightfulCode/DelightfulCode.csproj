@@ -15,7 +15,7 @@
     <Description>C# Base Components for code readability and annotation, designed to simplify a code base.</Description>
     <PackageId>DelightfulCode</PackageId>
     <Product>DelightfulCode</Product>
-    <Version>0.0.11-beta</Version>
+    <Version>0.0.12-beta</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="DelightfulCode.csproj.vspscc" />
