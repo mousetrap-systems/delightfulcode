@@ -4,15 +4,19 @@
 /// Safe FIFO implementation for any type.
 /// NOTE: If serializing, check to see that `T` is also serializable.
 /// </summary>
+[Author("GPT-4", 2024)]
 [Serializable]
 [Health(CodeStability.RequiresCommentary)]
-public class CircularBuffer<T> : IEnumerable<T>, IEnumerable
+public class CircularBuffer<T> : IEnumerable<T>, IEnumerable //, ICloneable
 {
     private readonly int _size;
 
     private readonly object _locker;
 
     private int _count;
+
+    // '_head' points to the oldest item in the buffer(the next item to be dequeued).
+    // '_rear' points to the next available slot in the buffer(where the next item will be enqueued).
 
     private int _head;
 
@@ -59,11 +63,28 @@ public class CircularBuffer<T> : IEnumerable<T>, IEnumerable
     /// <summary>
     /// From the 'rear' this will return the most recent item added to the stack, if it's present.
     /// </summary>
-    public T? GetItem(int index)
+    public T? GetItemFromOldestItems(int index)
     {
         if (index < 0 || index >= _count)
         {
-            return default(T);
+            return default;
+        }
+
+        // Calculate the actual index in the buffer
+
+        int actualIndex = (_head + index) % _size;
+
+        return _values[actualIndex];
+    }
+
+    /// <summary>
+    /// From the 'head' this will return the oldest item added to the buffer, if it's present.
+    /// </summary>
+    public T? GetItemFromMostRecent(int index)
+    {
+        if (index < 0 || index >= _count)
+        {
+            return default;
         }
 
         // Calculate the actual index in the buffer
@@ -185,5 +206,48 @@ public class CircularBuffer<T> : IEnumerable<T>, IEnumerable
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
+    }
+
+    // New method to iterate from rear to front
+    public IEnumerable<T> IterateFromRearToFront()
+    {
+        lock (_locker)
+        {
+            for (int i = 0; i < _count; i++)
+            {
+                int index = (_rear - 1 - i + _size) % _size;
+                yield return _values[index];
+            }
+        }
+    }
+
+    /// <summary>
+    /// Clears the buffer by resetting the head, rear, and count. All items are removed.
+    /// </summary>
+    public void Clear()
+    {
+        lock (_locker)
+        {
+            _count = 0;
+            _head = 0;
+            _rear = 0;
+            _values = new T[_size]; // Reset the array to default values
+        }
+    }
+
+    /// <summary>
+    /// Updates the item in the buffer, that was MOST RECENTLY ADDED
+    /// </summary>
+    public void UpdateMostRecent(T newValue)
+    {
+        if (_count == 0)
+        {
+            throw new InvalidOperationException("Buffer is empty.");
+        }
+
+        // Calculate the index of the most recent item
+        int recentIndex = (_rear - 1 + _size) % _size;
+        // int recentIndex = (_head) % _size;
+        _values[recentIndex] = newValue;
     }
 }
