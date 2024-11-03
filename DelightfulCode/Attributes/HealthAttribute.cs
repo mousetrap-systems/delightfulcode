@@ -1,10 +1,9 @@
-﻿using System;
-
-/// <summary>
+﻿/// <summary>
 /// Use this attribute to indicate 'last known state' of the code so that others know how to approach it (without needing to read the code inside).
 /// NOTE: If the code does not fall into any of the following categories (i.e. no assessment has been made) then do not use, to reduce noise.
 /// IF MULTIPLE CLASSIFICATIONS EXIST, use additional attribute decoration.
 /// </summary>
+[Author("Warren James", 2017 - 2024)]
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
 [Health(CodeStability.Stable)]
 public sealed class HealthAttribute : Attribute

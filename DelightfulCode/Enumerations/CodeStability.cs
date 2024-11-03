@@ -1,11 +1,9 @@
-﻿using System;
-
-/// <summary>
+﻿/// <summary>
 /// Internal flags used in attributes, allows internal classification of the codebase.
 /// In 2023, I used GPT-4 to suggest additional flags to fill out the entire scope of usage.
 /// </summary>
 [Author("GPT-4", 2023)]
-[Author("Warren James", 2018-2021, 2023)]
+[Author("Warren James", 2018 - 2021, 2023 - 2024)]
 [Health(CodeStability.Stable)]
 public enum CodeStability
 {

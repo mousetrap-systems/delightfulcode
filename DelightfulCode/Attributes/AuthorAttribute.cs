@@ -1,13 +1,11 @@
-﻿using System;
-
-/// <summary>
+﻿/// <summary>
 /// Simple mechanism for flagging the author of a class or method,
 /// allows keeping track of contributors, useful in a team environment.
 /// Similar to NUNIT https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/attributes
 /// </summary>
 [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
 [Author("GPT-4", 2023)]
-[Author("Warren James", 2022-2023)]
+[Author("Warren James", 2022 - 2024)]
 [Health(CodeStability.Stable)]
 public sealed class AuthorAttribute : Attribute
 {
@@ -21,8 +19,8 @@ public sealed class AuthorAttribute : Attribute
     /// <example>
     /// this: [Author("Warren James", 2018-2021, 2023)]
     /// </example>
-    /// <param name="contributor_name">Who added to/was responsible for, this code logic? To protect privacy, do not use email addresses.</param>
-    /// <param name="years">Optionally indicate the years of contribution (helps identify old code quickly)</param>
+    /// <param name="contributor_name">Who added to/was responsible for, this code logic? To protect privacy, do NOT use email addresses.</param>
+    /// <param name="years">Optionally indicate the years of contribution (helps identify old code quickly), can use a 'dash' for continuous</param>
     public AuthorAttribute(string contributor_name, params int[] years)
     {
         this.name = contributor_name;
@@ -38,5 +36,4 @@ public sealed class AuthorAttribute : Attribute
     {
         get { return years; }
     }
-
 }
