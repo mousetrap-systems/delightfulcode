@@ -242,12 +242,15 @@ public class CircularBuffer<T> : IEnumerable<T>, IEnumerable //, ICloneable
     {
         if (_count == 0)
         {
-            throw new InvalidOperationException("Buffer is empty.");
+            // it was empty previously, so just enqueue the item for simplicity
+            Enqueue(newValue);
         }
-
-        // Calculate the index of the most recent item
-        int recentIndex = (_rear - 1 + _size) % _size;
-        // int recentIndex = (_head) % _size;
-        _values[recentIndex] = newValue;
+        else
+        {
+            // Calculate the index of the most recent item
+            int recentIndex = (_rear - 1 + _size) % _size;
+            // int recentIndex = (_head) % _size;
+            _values[recentIndex] = newValue;
+        }
     }
 }
