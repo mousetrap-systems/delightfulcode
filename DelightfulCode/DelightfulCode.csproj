@@ -16,6 +16,7 @@
     <PackageId>DelightfulCode</PackageId>
     <Product>DelightfulCode</Product>
     <Version>0.0.22-beta</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="DelightfulCode.csproj.vspscc" />
@@ -24,6 +25,12 @@
     <None Include="..\license" Link="license">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 </Project>
