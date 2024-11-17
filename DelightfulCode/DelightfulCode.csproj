@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+	  <TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Warren James</Authors>
     <Company>Mousetrap Systems</Company>
@@ -15,7 +15,7 @@
     <Description>C# Base Components for code readability and annotation, designed to simplify a code base.</Description>
     <PackageId>DelightfulCode</PackageId>
     <Product>DelightfulCode</Product>
-    <Version>0.0.22-beta</Version>
+    <Version>9.0.1</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
