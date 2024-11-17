@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+	  <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Warren James</Authors>
     <Company>Mousetrap Systems</Company>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageProjectUrl>https://isitdoneyet.online/delightfulcode/</PackageProjectUrl>
+    <PackageProjectUrl>https://isitdoneyet.org/delightfulcode/</PackageProjectUrl>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
     <PackageLicenseFile>license</PackageLicenseFile>
@@ -15,7 +15,7 @@
     <Description>C# Base Components for code readability and annotation, designed to simplify a code base.</Description>
     <PackageId>DelightfulCode</PackageId>
     <Product>DelightfulCode</Product>
-    <Version>9.0.1</Version>
+    <Version>9.0.2</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
@@ -25,6 +25,10 @@
     <None Include="..\license" Link="license">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
   <ItemGroup>
