@@ -10,7 +10,7 @@
     <PackageReleaseNotes>
     </PackageReleaseNotes>
     <PackageLicenseFile>UNLICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/mousetrap-systems/opensource</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mousetrap-systems/delightfulcode</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <Description>C# Base Components for code readability and annotation, designed to simplify a code base.</Description>
     <PackageId>DelightfulCode</PackageId>

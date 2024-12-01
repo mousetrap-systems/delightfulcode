@@ -13,3 +13,4 @@ Tools to help your code read like a story.
 NOTES:
 - GPT-4 is occasionally used to refine the xml comments.
 - We have official permission to use this namespace, from Roberto Selbach (November 2024)
+- https://isitdoneyet.org/ is coming soon (later)
