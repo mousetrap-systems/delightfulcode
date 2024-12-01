@@ -74,7 +74,9 @@
         InProgress,
 
         /// <summary>
-        /// Marks code known which may be easy to shatter. Be careful with changing this class since it might break due to various dependencies.
+        /// Marks code known which may be easy to shatter even if you change something small.
+        /// This could be because of dependencies or really sensitive data containers.
+        /// Be careful with changing this class since it might break due to various dependencies.
         /// This code would be a good candidate to refactor in the future, but requires careful handling.
         /// </summary>
         FragileHandleWithCare,
@@ -88,6 +90,23 @@
         Legacy,
 
         /// <summary>
+        /// The functionality inside this code is really really very quite important to the business, so be very careful with any changes.
+        /// This flag is more to do with BUSINESS procedure, and indicates that the concepts here are buried deep within the organisation.
+        /// If this code were to break or be altered in any way, then this would be a major impact / major disruption.
+        /// suggest: always use pair programming to review, and additionally should ensure that all functionality is fully tested.
+        /// </summary>
+        MissionCritical,
+
+        /// <summary>
+        /// Indicates that performance is critical for this code.
+        /// Optimizations for speed, memory, or responsiveness should be prioritized.
+        /// Changes to this code should be reviewed with performance impact in mind.
+        /// Examples include real-time systems, high-frequency trading, or latency-sensitive operations.
+        /// </summary>
+        PerformanceCritical,
+
+        /// <summary>
+        /// Similar to 'Deprecated' but a final decision hasn't been made yet.
         /// SPECIAL: Can be used to flag an item for possible future deletion. Assumes a desire already exists to get rid of this code,
         /// but cannot currently be done due to time constraints or other dependencies.
         /// Regular usage gives us a great immediate map for code cleanup.
@@ -99,6 +118,15 @@
         /// Gives a fighting chance to whoever is maintaining the code to do a quick search and find out if any duplicates actually currently still exist.
         /// </summary>
         PossiblyContainsDuplicateCode,
+
+        /// <summary>
+        /// Flags code that is challenging to read or understand, even if functional.
+        /// This could be due to poor naming, lack of comments, or overly complex logic.
+        /// Refactoring for readability is recommended. Obviously this is subjective,
+        /// so whoever adds the flag should be ready to defend their commentary and reasonings.
+        /// This is intended primarily to initiate discussion.
+        /// </summary>
+        ReadabilityConcerns,
 
         /// <summary>
         /// This code is being actively refactored or redesigned.
@@ -165,6 +193,14 @@
         TightlyCoupled,
 
         /// <summary>
+        /// Marks code that must be thread-safe due to concurrent usage in multi-threaded or asynchronous environments.
+        /// Use this flag to identify areas where careful synchronization or thread-safety mechanisms are required.
+        /// This is an extra visibility to developers to be careful with changing this section of code.
+        /// </summary>
+        ThreadSafetyRequired,
+
+        /// <summary>
+        /// Unclassified flag - 
         /// Default, but can be used to indicate that an assessment is pending, and potentially required (or desired).
         /// </summary>
         Unknown
