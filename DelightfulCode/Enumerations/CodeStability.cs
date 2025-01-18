@@ -2,10 +2,10 @@
 {
     /// <summary>
     /// Internal flags used in attributes, allows internal classification of the codebase.
-    /// In 2023, I used GPT-4 to suggest additional flags to fill out the entire scope of usage.
+    /// Every year I ask GPT-4 to suggest new items, I also add ones that I come across in my own usage.
     /// </summary>
-    [Author("GPT-4", 2023)]
-    [Author("Warren James", 2018 - 2021, 2023 - 2024)]
+    [Author("GPT-4", 2023, 2024)]
+    [Author("Warren James", 2018 - 2021, 2023 - 2025)]
     [Health(CodeStability.Stable)]
     public enum CodeStability
     {
@@ -22,6 +22,12 @@
         /// At least include summary as to what you are smelling, so that the assessment can end up being be objective rather than subjective.
         /// </summary>
         CodeSmells,
+
+        /// <summary>
+        /// Code is written to comply with a specific standard or regulation.
+        /// Use this flag to indicate that changes to the code need to maintain compliance with the specified standard or regulation.
+        /// </summary>
+        ComplianceRequired,
 
         /// <summary>
         /// The code has been deprecated, meaning it should no longer be used in new development.
@@ -180,8 +186,15 @@
         OptimizationCandidate,
 
         /// <summary>
-        /// Code in this section may be part of a larger effort to relocate or consolidate objects and currently has no specific classification.
-        /// Look for clues and comments about ownership and versioning before you start extending stuff.
+        /// Code is platform-specific and may not work correctly or optimally on other platforms.
+        /// Use this flag to indicate that the code is tied to a specific platform and changes for cross-platform compatibility may be necessary.
+        /// </summary>
+        PlatformSpecific,
+
+        /// <summary>
+        /// Code in this section is currently in a location which is not expected to be the FINAL location.
+        /// This means it may be part of a larger effort to relocate or consolidate objects and needs a final home to remove the flag.
+        /// Useful when you know that the code block has to move but you're unsure yet where that needs to go.
         /// </summary>
         TemporaryMigration,
 
@@ -203,6 +216,14 @@
         /// Unclassified flag - 
         /// Default, but can be used to indicate that an assessment is pending, and potentially required (or desired).
         /// </summary>
-        Unknown
+        Unknown,
+
+        /// <summary>
+        /// Code is currently being worked on and is not yet complete (i.e. currently in flux).
+        /// Use this flag to indicate that the code is in an intermediate state and may not function as expected.
+        /// Other developers should be aware that this code is subject to change and should coordinate with the author before making modifications.
+        /// </summary>
+        [Author("Warren James", 2025)]
+        WorkInProgress,
     }
 }
