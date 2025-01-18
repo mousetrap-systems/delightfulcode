@@ -1,14 +1,36 @@
-﻿DelightfulCode
+﻿DOCUMENTATION TBD
 
-A library for helping markup your code to be more readable and extend context.
-Namespace membership granted by Roberto Selbach.
+Contains: Structures to help your code read like a story.
+It's intended to help promote conversation and discussion,
+especially where the age of the code is spread out across many teams and many timeframes.
 
-Versioning:
-We follow semantic versioning.
+## Features
+
+1. HealthAttribute - decorate your code with health markers, to assist future cleanups
+
+2. AuthorAttribute - allows you to denote who wrote what, and when
+
+3. String extensions: HasSomeValue(), IsBlank() and others
+
+4. CircularBuffer - I could never find an implementation I liked so I made my own > properly tested.
+
+# Version 1.0.6 - Jan 18, 2025
+
+- Added 'CircularBuffer' class, which is the official stable version for many of my other projects
+- Added 'Randomness' utility class which has some methods for creating identifiers
+- Updated 'CodeStability' enumeration with some more additions, things I've encountered over 2024.
+- All files now have a blank line at the end, yes I'm getting with the times
+
+# Version 1.0.1 - December 02, 2024
+
+- Tested the mechanism for upgrading version of nuget. No actual changes
+
+# Version 1.0.0 - December 01, 2024
+
+- First official release non-alpha, and with blessing to use namespace from Rob Selbach
 
 
-CircularBuffer:
-
-We acknowledge the work of https://github.com/joaoportela/CircularBuffer-CSharp (uses 'UNLICENSE')
-Related discussion https://devblog.cyotek.com/post/circularbuffer-a-first-in-first-out-collection-of-objects-using-a-fixed-buffer
-JOAO also referenced: http://www.boost.org/doc/libs/1_37_0/libs/circular_buffer/doc/circular_buffer.html
+NOTES:
+- GPT-4 is occasionally used to refine the xml comments.
+- We have official permission to use this namespace, from Roberto Selbach (November 2024)
+- https://isitdoneyet.org/ is still coming soon
