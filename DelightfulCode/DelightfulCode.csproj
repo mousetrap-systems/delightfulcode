@@ -7,6 +7,7 @@
   </PropertyGroup>
   <PropertyGroup>
 	  <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+	  <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Warren James</Authors>
     <Company>Mousetrap Systems</Company>

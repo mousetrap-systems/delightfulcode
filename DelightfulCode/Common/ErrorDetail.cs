@@ -10,7 +10,6 @@ namespace DelightfulCode
     [Author("Warren James", 2023)]
     [Health(CodeStability.Experimental)]
     [Health(CodeStability.RequiresCommentary)]
-    [Health(CodeStability.RequiresExpertReview)]
     public readonly struct ErrorDetail
     {
         public ErrorDetail(string key, string detail, int severity, [CallerMemberName] string method = "")

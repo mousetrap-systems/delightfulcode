@@ -12,6 +12,7 @@ namespace DelightfulCode
         /// <summary>
         /// Generate a unique key of specific size based on DateTime and GUID,
         /// also utilizes scrambling for extra randomness.
+        /// NOTE: This signature uses only hexadecimal values.
         /// </summary>
         /// <param name="size">The length of the key to be generated.</param>
         /// <param name="include_letters">if you need specific characters to be included in the final output, list them here.</param>

@@ -31,38 +31,14 @@ namespace DelightfulCode
         /// Initializes a new instance of the <see cref="CircularBuffer{T}"/> class.
         /// </summary>
         /// <param name='capacity'>Buffer capacity. Must be positive.</param>
-        public CircularBuffer(int capacity) : this(capacity, items: Array.Empty<T>())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CircularBuffer{T}"/> class.
-        /// </summary>
-        /// <param name='capacity'>
-        /// Buffer capacity. Must be positive (and greater than zero).
-        /// Will normally be different to your payload.
-        /// </param>
-        /// <param name='items'>
-        /// Optionally load some items to fill buffer to start with.
-        /// This initial load is special, the first item appears at 
-        /// Quantity must be less than capacity otherwise an error will be thrown.
-        /// Suggestion: use Skip(x).Take(y).ToArray() to build this argument from.
-        /// any enumerable.
-        /// </param>
-        public CircularBuffer(int capacity, T[] items)
+        public CircularBuffer(int capacity)
         {
             if (capacity < 1) throw new ArgumentException("Circular buffer cannot have negative or zero capacity.", nameof(capacity));
-            if (items == null) throw new ArgumentNullException(nameof(items));
-            if (items.Length > capacity) throw new ArgumentException("Too many items to fit circular buffer", nameof(items));
 
             _buffer = new T[capacity];
-
-            Array.Copy(items, _buffer, items.Length);
-
-            _itemCount = items.Length; // this is the initial size.
-
+            _itemCount = 0;
             _start = 0;
-            _end = _itemCount == capacity ? 0 : _itemCount;
+            _end = 0;
         }
 
         /// <summary>
